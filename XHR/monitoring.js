@@ -12,6 +12,6 @@ var onProgressHandler = function(event) {
     }
 }
 
-xhr.upload.addEventListener('progress', onProgressHandler);
-xhr.addEventListener('progress', onProgressHandler);
+xhr.upload.addEventListener('progress', onProgressHandler); //for upload
+xhr.addEventListener('progress', onProgressHandler); //for download
 xhr.send();
