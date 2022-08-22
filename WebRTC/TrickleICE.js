@@ -16,16 +16,20 @@ function gotStream(stream){
     pc.createOffer(function(offer)
     {
         pc.setLocalDescription(offer);
+        signalingChannel.send(offer.sdp);
         
     });
 }
 
 pc.onicecandidate = function(evt) {
-    if(evt.target.iceGatheringState == 'complete') {
-        local.createOffer(function(offer){
-            console.log("offer with ICE candidates:" + offer.sdp);
-            signalingChannel.send(offer.sdp);
-        })
+    if(evt.candidate) {
+        signalingChannel.send(evt.candidate);
+    }
+}
+
+signalingChannel.onmessage = function(msg) {
+    if(msg.candidate){
+        pc.addIceCandidate(msg.candidate);
     }
 }
 
